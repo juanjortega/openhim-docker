@@ -1,0 +1,19 @@
+{
+    "version": "${CONSOLE_VERSION:-1.18.2}",
+    "minimumCoreVersion": "5.2.0",
+    "protocol": "${CONSOLE_PROTOCOL:-https}",
+    "host": "${CONSOLE_HOST:-localhost}",
+    "hostPath": "",
+    "port": "${CORE_API_PORT:-8080}",
+    "title": "${CONSOLE_TITLE:-Admin Console}",
+    "footerTitle": "${CONSOLE_FOOTER_TITLE:-OpenHIM Administration Console}",
+    "footerPoweredBy": "<a href='http://openhim.org/' target='_blank'>Powered by OpenHIM</a>",
+    "loginBanner": "",
+    "mediatorLastHeartbeatWarningSeconds": 60,
+    "mediatorLastHeartbeatDangerSeconds": 120,
+    "showLoginForm": true,
+    "ssoEnabled": ${SSO_ENABLED:-false},
+    "keyCloakUrl": "${KEYCLOAK_URL:-http://localhost:9088}",
+    "keyCloakRealm": "${KEYCLOAK_REALM:-platform-realm}",
+    "keyCloakClientId": "${KEYCLOAK_CLIENT_ID:-openhim-oauth}"
+}

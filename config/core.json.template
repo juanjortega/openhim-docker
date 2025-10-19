@@ -1,0 +1,170 @@
+{
+  "bindAddress": "${CORE_BIND_ADDRESS:-0.0.0.0}",
+  "mongo": {
+    "url": "${MONGO_URL:-mongodb://localhost/openhim}",
+    "atnaUrl": "${MONGO_ATNA_URL:-mongodb://localhost/openhim}",
+    "connectionOptions": {},
+    "openHIMApiReadPreference": "primaryPreferred",
+    "openHIMApiWriteConcern": 1,
+    "openHIMApiReadConcern": "local"
+  },
+  "logger": {
+    "level": "${LOG_LEVEL:-info}",
+    "logToDB": ${LOG_TO_DB:-true},
+    "capDBLogs": ${LOG_CAP_DB:-true},
+    "capSize": ${LOG_CAP_SIZE:-10000000}
+  },
+  "mongoLogger": {
+    "options": {
+      "w": 0,
+      "useNewUrlParser": true
+    }
+  },
+  "router": {
+    "externalHostname": "${OPENHIM_EXTERNAL_HOST:-localhost}",
+    "httpPort": ${CORE_HTTP_PORT:-5001},
+    "httpsPort": ${CORE_HTTPS_PORT:-5000},
+    "timeout": 60000,
+    "kafkaBrokers": "${OPENHIM_EXTERNAL_HOST:-localhost}:9092"
+  },
+  "bodyCull":{
+    "enabled":true,
+    "pollPeriodMins": 60
+  },
+  "api": {
+    "sessionKey": "${API_SESSION_KEY:-r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#}",
+    "trustProxy": false,
+    "secureCookie": true,
+    "maxAge": ${API_MAX_AGE:-7200000},
+    "salt": ${API_SALT:-10},
+    "enabled": true,
+    "protocol": "${CORE_PROTOCOL:-https}",
+    "port": ${CORE_API_PORT:-8080},
+    "authWindowSeconds": 10,
+    "maxBodiesSizeMB": 15,
+    "maxPayloadSizeMB": 50,
+    "truncateSize": 15000,
+    "truncateAppend": "\n[truncated ...]",
+    "authenticationTypes": ["basic", "local", "token", "openid"],
+    "openid": {
+      "url": "${KEYCLOAK_URL:-http://localhost:9088}/realms/${KEYCLOAK_REALM:-platform-realm}",
+      "callbackUrl": "${OPENID_CALLBACK_URL:-http://localhost:9000}",
+      "clientId": "${KEYCLOAK_CLIENT_ID:-openhim-oauth}",
+      "clientSecret": "${KEYCLOAK_CLIENT_SECRET:-tZKfEbWf0Ka5HBNZwFrdSyQH2xT1sNMR}",
+      "scope": "${OPENID_SCOPE:-openid email profile offline_access roles}"
+    }
+  },
+  "rerun": {
+    "httpPort": ${RERUN_HTTP_PORT:-7786},
+    "host": "${RERUN_HOST:-localhost}",
+    "processor": {
+      "enabled": ${RERUN_PROCESSOR_ENABLED:-true},
+      "pollPeriodMillis": ${RERUN_POLL_PERIOD:-2000}
+    },
+    "taskTransactionsLength": 50,
+    "activeConcurrentTasks": 3
+  },
+  "tcpAdapter": {
+    "httpReceiver": {
+      "httpPort": ${TCP_HTTP_PORT:-7787},
+      "host": "${TCP_HOST:-localhost}"
+    }
+  },
+  "polling": {
+    "enabled": ${POLLING_ENABLED:-true},
+    "pollingPort": ${POLLING_PORT:-7788},
+    "host": "${POLLING_HOST:-localhost}"
+  },
+  "authentication": {
+    "enableMutualTLSAuthentication": true,
+    "enableBasicAuthentication": true,
+    "enableCustomTokenAuthentication": false,
+    "enableJWTAuthentication": false,
+    "jwt": {
+      "jwksUri": "",
+      "secretOrPublicKey": "${JWT_SECRET:-}",
+      "algorithms": "${JWT_ALGORITHM:-}",
+      "audience": "",
+      "issuer": "${JWT_ISSUER:-}"
+    }
+  },
+  "email": {
+    "fromAddress": "${EMAIL_FROM_ADDRESS:-address@example.com}",
+    "nodemailer": {
+      "service": "${EMAIL_SERVICE:-Gmail}",
+      "auth": {
+        "user": "${EMAIL_USER:-user@gmail.com}",
+        "pass": "${EMAIL_PASS:-password}"
+      }
+    }
+  },
+  "smsGateway": {
+    "provider": "${SMS_PROVIDER:-clickatell}",
+    "config": {
+      "user": "${SMS_USER:-user}",
+      "pass": "${SMS_PASS:-pass}",
+      "apiID": "${SMS_API_ID:-apiID}"
+    }
+  },
+  "alerts": {
+    "enableAlerts": ${ALERTS_ENABLED:-true},
+    "pollPeriodMinutes": ${ALERTS_POLL_MINUTES:-1},
+    "himInstance": "${ALERTS_HIM_INSTANCE:-Local OpenHIM}",
+    "consoleURL": "${ALERTS_CONSOLE_URL:-http://localhost:9000}"
+  },
+  "reports": {
+    "enableReports": true,
+    "dailyReportAt": "0 7 * * *",
+    "weeklyReportAt": "0 7 * * 1",
+    "utcOffset": null
+  },
+  "events": {
+    "enableTSNormalization": true
+  },
+  "newUserExpiry": {
+    "duration": 7,
+    "durationType": "days"
+  },
+  "userPasswordResetExpiry": {
+    "duration": 1,
+    "durationType": "hours"
+  },
+  "auditing": {
+    "servers": {
+      "udp": {
+        "enabled": ${AUDIT_UDP_ENABLED:-false},
+        "port": ${AUDIT_UDP_PORT:-5050}
+      },
+      "tls": {
+        "enabled": ${AUDIT_TLS_ENABLED:-false},
+        "port": ${AUDIT_TLS_PORT:-5051}
+      },
+      "tcp": {
+        "enabled": ${AUDIT_TCP_ENABLED:-false},
+        "port": ${AUDIT_TCP_PORT:-5052}
+      }
+    },
+    "auditEvents": {
+      "interface": "internal",
+      "host": "${AUDIT_HOST:-localhost}",
+      "port": ${AUDIT_TLS_PORT:-5051},
+      "auditSourceID": "${AUDIT_SOURCE_ID:-OpenHIM}"
+    }
+  },
+  "caching": {
+    "enabled": true,
+    "refreshMillis": 1000
+  },
+  "tlsClientLookup": {
+    "type": "strict"
+  },
+  "agenda": {
+    "startupDelay": 500
+  },
+  "certificateManagement": {
+    "watchFSForCert": ${CERT_WATCH_FS:-false},
+    "certPath": "${CERT_PATH:-/etc/letsencrypt/live/openhim.jembi.org/cert.pem}",
+    "keyPath": "${CERT_KEY_PATH:-/etc/letsencrypt/live/openhim.jembi.org/privkey.pem}"
+  },
+  "openhimConsoleBaseUrl": "${CONSOLE_PROTOCOL:-http}://${CONSOLE_HOST:-localhost}:${CONSOLE_PORT:-9000}"
+}

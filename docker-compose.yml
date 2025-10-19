@@ -1,0 +1,62 @@
+version: '3'
+
+networks:
+  openhim:
+
+services:
+  mongo-db:
+    container_name: mongo-db
+    image: mongo:${MONGO_VERSION:-4.0}
+    networks:
+      - openhim
+    volumes:
+      - "mongo-data:/data/db"
+    restart: unless-stopped
+
+  openhim-core:
+    container_name: openhim-core
+    image: jembi/openhim-core:${OPENHIM_CORE_VERSION:-v8.5.0}
+    restart: unless-stopped
+    environment:
+      - mongo_url=${MONGO_URL:-mongodb://mongo-db/openhim-development}
+      - mongo_atnaUrl=${MONGO_ATNA_URL:-mongodb://mongo-db/openhim-development}
+      - NODE_ENV=${NODE_ENV:-development}
+      - api_authenticationTypes=["token","basic","openid","local"]
+      - authentication_enableCustomTokenAuthentication=true
+      - authentication_enableJWTAuthentication=true
+      - authentication_jwt_secretOrPublicKey=${JWT_SECRET:-secret}
+      - authentication_jwt_algorithms=${JWT_ALGORITHM:-HS256}
+      - authentication_jwt_issuer=${JWT_ISSUER:-openhim}
+      - openhimConsoleBaseUrl=${CONSOLE_PROTOCOL:-http}://${CONSOLE_HOST:-localhost}:${CONSOLE_PORT:-9000}
+    ports:
+      - "${CORE_API_PORT:-8080}:8080"
+      - "${CORE_HTTPS_PORT:-5000}:5000"
+      - "${CORE_HTTP_PORT:-5001}:5001"
+    networks:
+      - openhim
+    healthcheck:
+      test: "curl -sSk https://openhim-core:8080/heartbeat || exit 1"
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  openhim-console:
+    container_name: openhim-console
+    image: jembi/openhim-console:${OPENHIM_CONSOLE_VERSION:-v1.18.1}
+    restart: unless-stopped
+    networks:
+      - openhim
+    ports:
+      - "${CONSOLE_PORT:-9000}:80"
+    volumes:
+      - "./config/console.json:/usr/share/nginx/html/config/default.json:ro"
+      - "./config/console.json:/usr/share/nginx/html/config/development.json:ro"
+      - "./config/console.json:/usr/share/nginx/html/config/default-env.json:ro"
+    healthcheck:
+      test: "curl -sS http://openhim-console || exit 1"
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+volumes:
+  mongo-data:

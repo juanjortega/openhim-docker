@@ -1,0 +1,69 @@
+# Variables de entorno locales
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Archivos de configuración generados
+config/console.json
+config/core.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencias de Node.js
+node_modules/
+
+# Archivos de sistema
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker
+.docker/
+
+# Certificados y claves privadas (excepto ejemplos)
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+!*example*
+!*sample*
+
+# Backups de base de datos
+*.sql
+*.dump
+*.backup
+
+# Archivos temporales
+tmp/
+temp/
+.tmp/
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Archivos de configuración específicos del entorno
+docker-compose.override.yml
+docker-compose.local.yml
+
+# Cache
+.cache/
