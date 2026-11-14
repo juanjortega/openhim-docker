@@ -1,0 +1,6 @@
+Avisos de terceros
+
+El repositorio es propietario (ver LICENSE). Los archivos de configuración de OpenHIM
+que se incluyen como punto de partida (default.json, default-core.json,
+development-core.json y production-core.json) provienen de OpenHIM y conservan su
+licencia MPL-2.0 (https://mozilla.org/MPL/2.0/); no se relicencian.
